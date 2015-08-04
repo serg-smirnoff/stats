@@ -1,4 +1,4 @@
-﻿<?php 
+<?php 
 class DataBaseMysql {
 	var $dbId;
 	function DataBaseMysql($host, $user, $password, $database) { if (!$this->dbId = @mysql_connect($host, $user, $password)) die("<b>MySQL</b>: Unable to connect to database"); if (!mysql_select_db($database)) die("<b>MySQL</b>: Unable to select database <b>".$database."</b>"); }
