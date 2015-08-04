@@ -1,0 +1,15 @@
+RewriteEngine On
+AuthType Basic
+AuthName 'Admin'
+AuthUserFile /var/www/serg-smirnoff/data/www/onlysites.ru/manager/.htpasswd
+Require valid-user
+AddDefaultCharset UTF-8
+php_flag display_errors Off
+
+Order allow,deny
+Allow from all
+Deny from 78.110.60.230
+Deny from 217.23.
+
+SetEnvIfNoCase User-Agent ".*MegaIndex" badbingbot
+Deny from env=badbingbot

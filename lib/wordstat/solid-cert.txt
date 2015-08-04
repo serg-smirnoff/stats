@@ -1,0 +1,2 @@
+cat cert.crt private.key > solid-cert.crt
+type cert.crt private.key > solid-cert.crt

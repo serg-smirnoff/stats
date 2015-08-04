@@ -1,0 +1,6 @@
+/cgi-bin/
+/webstat/
+/old.stat/
+config.php
+old.index.php
+.htpasswd

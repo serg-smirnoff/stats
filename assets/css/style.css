@@ -1,0 +1,46 @@
+TABLE TD{
+	padding: 7px;			
+}
+
+TH {
+	background: #009383;
+	color: #fff;
+	text-align: left;
+	margin: 2px;padding: 7px;
+	border: 1px solid #009383;
+}
+
+TR.ODD {
+	background: #ebd3d7;
+}
+
+#MAINTABLE TD{
+	border: 1px solid #009383;
+	font-size: 12px;
+}
+
+.TABLE_EDIT INPUT{
+	width: 310px; padding: 2px; border: 1px #FFA800 solid;
+	font-family: Arial, Tahoma, sans-serif;
+	font-size: 12px;
+}
+
+.TABLE_EDIT SELECT{
+	width: 310px; padding: 2px; border: 1px #FFA800 solid;
+	font-family: Arial, Tahoma, sans-serif;
+	font-size: 12px;
+}
+
+.TABLE_EDIT TEXTAREA{
+	padding: 2px; border: 1px #FFA800 solid;
+	width: 445px; height: 400px;
+	font-family: Arial, Tahoma, sans-serif;
+	font-size: 12px;
+}
+
+.TD_POSITION span.green{color: green;font-size: 9px; position: relative; top: -10px; left: 5px;}
+.TD_POSITION span.red{color: red;font-size: 9px; position: relative; top: -10px; left: 5px;}
+
+.edit_img{background: url('../images/edit.png') no-repeat right center;}
+.header_line{background: #009383;color: #fff;text-align: left;padding: 7px 12px 7px 16px;}
+.header_line a{color: #fff;}
