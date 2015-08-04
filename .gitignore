@@ -4,7 +4,7 @@
 /lib/wordstat/cacert.pem
 /lib/wordstat/cert.crt
 /lib/wordstat/private.key
-/lib/wordstat/req.crt
+/lib/wordstat/req.csr
 /lib/wordstat/solid-cert.crt
 config.php
 old.index.php
