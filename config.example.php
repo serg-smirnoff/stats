@@ -8,10 +8,10 @@ class Config{
     public $base;
     
     function __construct(){
-	$this->host = "localhost";
-        $this->user = "";
-        $this->pass = "";
-        $this->base = "stat";
+		$this->host = "localhost";
+		$this->user = "stat";
+		$this->pass = "5X4n2C5o";
+		$this->base = "stat";
     } 
     
 }

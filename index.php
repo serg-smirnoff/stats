@@ -1,6 +1,5 @@
 <?php
-        require_once 'config.php';
-        require_once 'lib/db/db.class.php';
+	require_once 'lib/db/db.class.php';
 	require_once 'lib/yandex.xml/Yandex.php';
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -16,10 +15,11 @@
 <body>
 <?php
         
-        $params = new Config();
-        $dbID = new DataBaseMysql($params->host,$params->user,$params->pass,$params->base);
-                       
-        $dbID->Query("SET NAMES UTF8");
+	$params = new Config();
+
+	$dbID = new DataBaseMysql($params->host,$params->user,$params->pass,$params->base);
+				   
+	$dbID->Query("SET NAMES UTF8");
 	$res = $dbID->SelectSet("SELECT * from projects WHERE is_active = 1");
 
 	/* include external php scripts */

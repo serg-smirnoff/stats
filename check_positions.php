@@ -1,5 +1,4 @@
 <?php
-	require_once 'config.php';
         require_once 'lib/db/db.class.php';
 	require_once 'lib/yandex.xml/Yandex.php';
 ?>
