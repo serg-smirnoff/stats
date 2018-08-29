@@ -1,6 +1,7 @@
 <?php
-	require_once 'lib/db/db.class.php';
-	require_once 'lib/yandex.xml/Yandex.php';
+	require_once("config.php");
+	require_once("lib/db/db.class.php");
+	require_once("lib/yandex.xml/Yandex.php");
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -16,10 +17,10 @@
 <?php
         
 	$params = new Config();
-
 	$dbID = new DataBaseMysql($params->host,$params->user,$params->pass,$params->base);
-				   
-	$dbID->Query("SET NAMES UTF8");
+	
+	//$dbID->Query("SET NAMES UTF8");
+	$dbID->Query("USE stat");
 	$res = $dbID->SelectSet("SELECT * from projects WHERE is_active = 1");
 
 	/* include external php scripts */
@@ -81,7 +82,8 @@
     <div style="height: 40px; line-height: 40px;"><a href="check_positions.php"><img src="assets/images/start.png" width="20" height="20" alt="" style="padding-right: 20px;" /> запустить пробивку</a> [по сегодняшней дате. запускается по cron ежедневно в 02:00]</div>
 </div>
 
-<?php function getContent($url, $agent = false){
+<?php 
+function getContent($url, $agent = false){
    $contentPage = '';
    $ch = curl_init();
    curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -134,6 +136,8 @@
 		}
 		return $out;
 	} 
+
+	/*
 	$content = getContent("http://tools.promosite.ru/");
 	
 	$start_rule = "<td valign=\"top\" swidth=\"80%\" class=text>";
@@ -147,6 +151,7 @@
 	$ret = str_replace("src=\"/", "src=\"http://tools.promosite.ru/", $ret);
 
 	echo $ret;
+	*/
 	
 ?></div>
 
