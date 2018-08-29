@@ -1,6 +1,6 @@
 ﻿<?php
 	require_once 'config.php';
-        require_once 'lib/db/db.class.php';
+	require_once 'lib/db/db.class.php';
 	require_once 'lib/yandex.xml/Yandex.php';
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -41,9 +41,8 @@
 	
 	}
 
-	$dbID->Destroy();
-
-	header('Location: http://stat.onlysites.ru/index.php');
+	header('Location: https://stat.onlysites.ru/index.php');
+	
 ?>
 </body>
 </html>

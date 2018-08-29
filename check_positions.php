@@ -1,6 +1,7 @@
 <?php
-        require_once 'lib/db/db.class.php';
-	require_once 'lib/yandex.xml/Yandex.php';
+require_once 'config.php';
+require_once 'lib/db/db.class.php';
+require_once 'lib/yandex.xml/Yandex.php';
 ?>
 <?php
 /*
@@ -26,7 +27,7 @@ foreach ($projects as $key => $project) {
 
 	$host = $project["url"];
 	$host_esc  = htmlspecialchars($host);
-	$host = preg_replace("[^http://|www\.]", '', $host);
+	//$host = preg_replace("[^http://|www\.]", '', $host);
 	
 	$phrase = $project["keys"]["phrase"];
 	$phrases = explode(";", $phrase);
@@ -49,7 +50,7 @@ foreach ($projects as $key => $project) {
 		{
 			if ($exit) break;
 			$response = file_get_contents('http://xmlsearch.yandex.ru/xmlsearch?user=programmatore&key=03.29915828:0e54bb50b2061a2a18038bb37ff306cb&text='.$query_esc.'&page='.$page.'&groupby=attr%3Dd.mode%3Ddeep.groups-on-page%3D10.docs-in-group%3D1&lr='.$reg);
-                        if ( $response ) {    
+					if ( $response ) {    
 					$xmldoc = new SimpleXMLElement($response);
 					$xmlresponce = $xmldoc->response;
 					if ($xmlresponce->error) {
@@ -60,7 +61,9 @@ foreach ($projects as $key => $project) {
 					$pos = 1;
 					$nodes = $xmldoc->xpath('/yandexsearch/response/results/grouping/group/doc/url');
 					foreach ($nodes as $node) {
-						if ( preg_match("/^http:\/\/(www\.)?$host/i", $node) ) {
+						/*if ( preg_match("^http(.*):\/\/(www\.)?".$host."$", $node) )*/ 
+						sleep(1);
+						if ( strpos ($node[0], $host) !== false ){ 
 							$found = $pos + $page * 10;
 							//print_r ($node);
 							$exit=true;
@@ -87,9 +90,7 @@ foreach ($projects as $key => $project) {
 	
 	$current_date = date('Y-m-d');
 	$dbID->Query("INSERT INTO positions VALUES ('','$project[id]', '$current_date', '$positions', '', '1')");
-	
+	sleep(2);
 }
-
-$dbID->Destroy();
 
 ?>
