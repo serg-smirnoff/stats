@@ -180,8 +180,8 @@
 		}
 	?>
 	<td class='td_position'><?php if ( (isset($arr2[$i])) && ($arr2[$i] == ">30") ) {echo "<div style='color: gray;'>".$arr2[$i]."</div>";}
-			  elseif ( (isset($arr2[$i])) && ($arr2[$i] > $arr2_1[$i]) ) {echo $arr2[$i]; echo "<span class='red'>+".$delta_plus."</span>";}
-			  elseif ( (isset($arr2[$i])) && ($arr2[$i] < $arr2_1[$i]) ) {echo $arr2[$i]; echo "<span class='green'>-".$delta_minus."</span>";} 
+			  elseif ( (isset($arr2[$i])) && ($arr2[$i] > $arr2_1[$i]) ) {echo $arr2[$i]; echo "<span class='green'>+".$delta_plus."</span>";}
+			  elseif ( (isset($arr2[$i])) && ($arr2[$i] < $arr2_1[$i]) ) {echo $arr2[$i]; echo "<span class='red'>-".$delta_minus."</span>";} 
 			  else { if (isset($arr2[$i])) echo $arr2[$i];}
 		?>
 	</td>

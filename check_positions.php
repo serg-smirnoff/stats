@@ -1,7 +1,10 @@
 <?php
+/*ini_set('max_execution_time', '1000');*/
+
 require_once 'config.php';
 require_once 'lib/db/db.class.php';
 require_once 'lib/yandex.xml/Yandex.php';
+
 ?>
 <?php
 /*
@@ -16,7 +19,7 @@ $projects = $dbID->SelectSet("SELECT * from projects WHERE is_active = 1");
 
 $i = 0;
 
-foreach ($projects as $key => $value){	
+foreach ($projects as $key => $value){
 	$keys = $dbID->SelectSet("SELECT * from keywords WHERE project_id = '$value[id]' AND is_active = 1");
 	$keys = $keys["0"];
 	$projects[$i]["keys"] = $keys;
@@ -42,38 +45,49 @@ foreach ($projects as $key => $project) {
 	$positions = "";
 		
 	foreach ($phrases as $key => $query_esc){
+		
 		$found = 0;
+		
 		$query_esc = str_replace(" ", "+", $query_esc);
 		$query_esc = trim($query_esc);
 
 		for ($page=0,$exit=false; $page<=$pages; $page++)
 		{
+		
 			if ($exit) break;
-			$response = file_get_contents('http://xmlsearch.yandex.ru/xmlsearch?user=programmatore&key=03.29915828:0e54bb50b2061a2a18038bb37ff306cb&text='.$query_esc.'&page='.$page.'&groupby=attr%3Dd.mode%3Ddeep.groups-on-page%3D10.docs-in-group%3D1&lr='.$reg);
-					if ( $response ) {    
-					$xmldoc = new SimpleXMLElement($response);
-					$xmlresponce = $xmldoc->response;
-					if ($xmlresponce->error) {
-						print "Ошибка: " . $xmlresponce->error . "<br/>\n";
-						$error = true;
+			
+			$ch = curl_init();
+
+			curl_setopt($ch, CURLOPT_URL, 'https://xmlsearch.yandex.ru/xmlsearch/?user=programmatore&key=03.29915828:0e54bb50b2061a2a18038bb37ff306cb&text='.$query_esc.'&page='.$page.'&groupby=attr%3Dd.mode%3Ddeep.groups-on-page%3D10.docs-in-group%3D1&lr='.$reg);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_HEADER, 0);
+			curl_setopt($ch, CURLOPT_TIMEOUT, 250);
+			curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)');
+			$response = curl_exec($ch);
+			curl_close($ch);			
+			
+			if ($response) {    
+				$xmldoc = new SimpleXMLElement($response);
+				$xmlresponce = $xmldoc->response;
+				if ($xmlresponce->error) {
+					print "Ошибка: " . $xmlresponce->error . "<br/>\n";
+					$error = true;
+					break;
+				}
+				$pos = 1;
+				$nodes = $xmldoc->xpath('/yandexsearch/response/results/grouping/group/doc/url');
+				foreach ($nodes as $node) {
+					/*if ( preg_match("^http(.*):\/\/(www\.)?".$host."$", $node) )*/ 
+					if ( strpos ($node[0], $host) !== false ){ 
+						$found = $pos + $page * 10;
+						$exit=true;
 						break;
 					}
-					$pos = 1;
-					$nodes = $xmldoc->xpath('/yandexsearch/response/results/grouping/group/doc/url');
-					foreach ($nodes as $node) {
-						/*if ( preg_match("^http(.*):\/\/(www\.)?".$host."$", $node) )*/ 
-						sleep(1);
-						if ( strpos ($node[0], $host) !== false ){ 
-							$found = $pos + $page * 10;
-							//print_r ($node);
-							$exit=true;
-							break;
-						}
-						$pos++;
-					}
-				} else {
-					print "Внутренняя ошибка сервера\n";
+					$pos++;
 				}
+			} else {
+				print "Внутренняя ошибка сервера\n";
+			}
 		}
 		$dpd+=$page;
 		$query_esc = str_replace("+", " ", $query_esc);
@@ -89,8 +103,9 @@ foreach ($projects as $key => $project) {
 	}
 	
 	$current_date = date('Y-m-d');
+	
 	$dbID->Query("INSERT INTO positions VALUES ('','$project[id]', '$current_date', '$positions', '', '1')");
-	sleep(2);
+	
 }
 
 ?>
